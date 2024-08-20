@@ -1,10 +1,26 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { auth, createUserWithEmailAndPassword } from "firebase/auth";
 
-export default Login = ( setUser ) => {
+export default Login = ( {setUser} ) => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+
+createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    
+    console.log(user)
+    setUser(user)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    
+    console.log(error)
+  });
 
     return(
         <View style={styles.container}>
